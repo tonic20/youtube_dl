@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ["Anton Kopylov"]
   gem.email         = ["anton@kopylov.net"]
   gem.description   = %q{Youtube video downloader}
-  gem.summary       = %q{This is a wrapper for youtube_dl.py}
+  gem.summary       = %q{This is a wrapper for youtube_dl}
   gem.homepage      = ''
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }

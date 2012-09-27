@@ -29,17 +29,17 @@ module YoutubeDl
 
     def download_video(options = {})
       `#{YOUTUBE_DL} -q --no-progress -o "#{video_filename}" -f #{options[:format] || @format} "#{@uri.to_s}"`
-      video_filename
+      video_filename if File.exist?(video_filename)
     end
 
     def download_preview(options = {})
-      link = if !extended_info_body["iurlsd"].blank? 
+      link = if !extended_info_body["iurlsd"].blank?
         extended_info_body["iurlsd"].first
       else
         extended_info_body["thumbnail_url"].first
       end
       `wget -O "#{preview_filename}" "#{link}"`
-      preview_filename
+      preview_filename if File.exist?(preview_filename)
     end
 
     def preview_filename
