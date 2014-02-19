@@ -22,6 +22,10 @@ module YoutubeDl
     def title
       extended_info_body['title'].first if extended_info.code == 200
     end
+    
+    def get_url
+      `#{YOUTUBE_DL} -g "#{@uri.to_s}"`
+    end
 
     def extended_info
       @video_info ||= HTTParty.get("http://www.youtube.com/get_video_info?video_id=#{video_id}&el=detailpage")
