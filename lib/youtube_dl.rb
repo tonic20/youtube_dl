@@ -29,7 +29,7 @@ module YoutubeDl
     end
 
     def get_url
-      `#{youtube_dl_binary} -g "#{@uri.to_s}"`
+      system(youtube_dl_binary, '-g', @uri.to_s)
     end
 
     def extended_info
@@ -37,7 +37,7 @@ module YoutubeDl
     end
 
     def download_video(options = {})
-      `#{youtube_dl_binary} -q --no-progress -o "#{video_filename}" -f #{options[:format] || @format} "#{@uri.to_s}"`
+      system(youtube_dl_binary, '-q', '--no-progress', '-o', video_filename, '-f', (options[:format] || @format).to_s, @uri.to_s)
       video_filename if File.exist?(video_filename)
     end
 
@@ -47,7 +47,7 @@ module YoutubeDl
       else
         extended_info_body["thumbnail_url"].first
       end
-      `wget -O "#{preview_filename}" "#{link}"`
+      system('wget', '-O', preview_filename, link)
       preview_filename if File.exist?(preview_filename)
     end
 
