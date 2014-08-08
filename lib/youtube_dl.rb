@@ -27,7 +27,7 @@ module YoutubeDl
     def title
       extended_info_body['title'].first if extended_info.code == 200
     end
-    
+
     def get_url
       `#{youtube_dl_binary} -g "#{@uri.to_s}"`
     end
