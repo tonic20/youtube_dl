@@ -13,6 +13,11 @@ module YoutubeDl
       @uri = URI.parse page_uri
       @location = options[:location] || "tmp/downloads" # default path
       @format = options[:format] || 18                  # default format
+      @youtube_dl_binary = options[:youtube_dl_binary] || YOUTUBE_DL
+    end
+
+    def youtube_dl_binary
+      @youtube_dl_binary
     end
 
     def video_id
@@ -22,9 +27,9 @@ module YoutubeDl
     def title
       extended_info_body['title'].first if extended_info.code == 200
     end
-    
+
     def get_url
-      `#{YOUTUBE_DL} -g "#{@uri.to_s}"`
+      system(youtube_dl_binary, '-g', @uri.to_s)
     end
 
     def extended_info
@@ -32,7 +37,7 @@ module YoutubeDl
     end
 
     def download_video(options = {})
-      `#{YOUTUBE_DL} -q --no-progress -o "#{video_filename}" -f #{options[:format] || @format} "#{@uri.to_s}"`
+      system(youtube_dl_binary, '-q', '--no-progress', '-o', video_filename, '-f', (options[:format] || @format).to_s, @uri.to_s)
       video_filename if File.exist?(video_filename)
     end
 
@@ -42,7 +47,7 @@ module YoutubeDl
       else
         extended_info_body["thumbnail_url"].first
       end
-      `wget -O "#{preview_filename}" "#{link}"`
+      system('wget', '-O', preview_filename, link)
       preview_filename if File.exist?(preview_filename)
     end
 
